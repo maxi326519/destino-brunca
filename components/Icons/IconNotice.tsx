@@ -2,19 +2,17 @@ import { ClipPath, Defs, G, Path, Rect, Svg } from "react-native-svg";
 
 interface Props {
   fill?: string;
-  width?: number | string;
-  height?: number | string;
+  size?: number | string;
 }
 
 export default function IconNews({
   fill = "red",
-  width = "46",
-  height = "46",
+  size = 40,
 }: Props) {
   return (
     <Svg
-      width={width}
-      height={height}
+      width={size}
+      height={size}
       viewBox="0 0 46 46"
       preserveAspectRatio="xMidYMid meet"
     >

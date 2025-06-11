@@ -1,5 +1,5 @@
 import { ActivityIndicator } from "react-native-paper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "expo-router";
 import {
   FlatList,
@@ -23,6 +23,10 @@ export default function Search() {
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingNextPage, setLoadingNextPage] = useState(false);
 
+  useEffect(() => {
+    if (search.data.length === 0) search.getData("");
+  }, []);
+
   const handleEndReached = async () => {
     const { current_page, total_pages } = search.page;
     if (current_page < total_pages && !loadingNextPage) {
@@ -40,7 +44,14 @@ export default function Search() {
   return (
     <View style={{ flex: 1, backgroundColor: "#4442" }}>
       {loading && <Loading />}
-      <View style={{ flexDirection: "row", gap: 10, padding: 10 }}>
+      <View
+        style={{
+          flexDirection: "row",
+          gap: 10,
+          padding: 20,
+          paddingBottom: 10,
+        }}
+      >
         <View
           style={{
             flex: 1,
@@ -69,7 +80,7 @@ export default function Search() {
             }}
             onPress={handleSearch}
           >
-            <IconSearch />
+            <IconSearch fill="black" size={25} strokeWidth={1.6} />
           </TouchableOpacity>
         </View>
       </View>
@@ -124,13 +135,13 @@ export default function Search() {
 }
 
 const styles = StyleSheet.create({
-  destinationContent: { gap: 20, padding: 20 },
+  destinationContent: { gap: 10, padding: 20, paddingTop: 10 },
   destiontionItem: {
     display: "flex",
     flexDirection: "row",
     gap: 10,
     width: "100%",
-    height: 140,
+    height: 120,
     marginBottom: 20,
     padding: 10,
     borderRadius: 12,
@@ -141,7 +152,7 @@ const styles = StyleSheet.create({
   },
   destinationImg: {
     width: 100,
-    height: "100%",
+    height: 100,
     borderRadius: 6,
     borderWidth: 1,
     borderColor: "#CCC",

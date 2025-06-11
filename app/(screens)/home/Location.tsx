@@ -138,12 +138,10 @@ export default function Index() {
             >
               <View style={styles.optionItem}>
                 <Text style={styles.optionName}>{item.name.toUpperCase()}</Text>
-                <View style={styles.optionImg}>
-                  <Image
-                    source={item.img}
-                    style={{ width: "100%", height: "100%" }}
-                  />
-                </View>
+                <Image
+                  source={item.img}
+                  style={{ width: "100%", height: "100%", opacity: 0.5 }}
+                />
               </View>
             </Link>
           )}
@@ -177,7 +175,8 @@ const styles = StyleSheet.create({
   locationName: {
     position: "absolute",
     zIndex: 100,
-    top: 100,
+    bottom: 10,
+    left: 10,
     padding: 20,
     fontSize: 25,
     textAlign: "center",
@@ -188,9 +187,9 @@ const styles = StyleSheet.create({
     position: "relative",
     height: "100%",
     width: "100%",
-    opacity: 1,
     justifyContent: "flex-start",
     alignItems: "center",
+    backgroundColor: "#000",
   },
 
   /* OPTIONS */
@@ -201,6 +200,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "#000",
     overflow: "hidden",
+    borderRadius: 6,
   },
   optionName: {
     position: "absolute",

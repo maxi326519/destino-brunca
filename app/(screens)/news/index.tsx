@@ -73,12 +73,27 @@ export default function News() {
                         ...styles.newsDescription,
                         color: theme.dark ? "#ddd" : "#444",
                       }}
+                      // Añade estas props para mejor control del texto
+                      enableExperimentalGhostLinesPrevention={true}
+                      tagsStyles={{
+                        p: {
+                          margin: 0,
+                          padding: 0,
+                        },
+                        body: {
+                          margin: 0,
+                          padding: 0,
+                          whiteSpace: "normal",
+                        },
+                      }}
                     />
                   </View>
                 </View>
               </Link>
             )}
             contentContainerStyle={{
+              flex: 1,
+              gap: 10,
               paddingHorizontal: 20,
               paddingVertical: 10,
             }}
@@ -116,35 +131,39 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 20,
     marginLeft: 30,
+    color: "#222"
   },
   newsItem: {
     flexDirection: "row",
     gap: 10,
     width: "100%",
-    height: 160,
-    marginBottom: 20,
+    height: 140,
     padding: 10,
+    borderRadius: 16,
+    backgroundColor: "white",
     overflow: "hidden",
-    backgroundColor: "#0000",
   },
   newsImg: {
     width: 120,
     height: 120,
-    borderRadius: 8,
+    borderRadius: 6,
     overflow: "hidden",
   },
   newsText: {
     flex: 1,
-    gap: 5,
     height: "100%",
     overflow: "hidden",
+    paddingRight: 5,
   },
   newsTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "bold",
   },
   newsDescription: {
-    fontSize: 15,
+    fontSize: 14,
+    lineHeight: 18,
+    textAlign: "justify",
+    flexShrink: 1,
     color: "#bbb",
   },
 });

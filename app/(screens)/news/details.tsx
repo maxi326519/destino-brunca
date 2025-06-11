@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
     position: "relative",
     justifyContent: "flex-end",
     marginBottom: 10,
+    backgroundColor: "#000"
   },
   headerImage: {
     position: "absolute",
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
     height: "100%",
     top: 0,
     left: 0,
-    opacity: 0.7,
+    opacity: 0.8,
   },
   headerOverlay: {
     ...StyleSheet.absoluteFillObject,
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     color: "#fff",
-    fontSize: 26,
+    fontSize: 25,
     fontWeight: "bold",
     padding: 20,
     zIndex: 20,
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   body: {
-    fontSize: 17,
-    lineHeight: 25,
+    fontSize: 16,
+    lineHeight: 20,
   },
 });

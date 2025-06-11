@@ -171,16 +171,18 @@ export default function Destination() {
             }
           />
         ) : (
-          <View
-            style={{
-              flex: 1,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Text>No se encontraron destinos</Text>
-          </View>
+          !loading && (
+            <View
+              style={{
+                flex: 1,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text>No se encontraron destinos</Text>
+            </View>
+          )
         )}
       </View>
     </View>
@@ -209,7 +211,8 @@ const styles = StyleSheet.create({
   locationName: {
     position: "absolute",
     zIndex: 100,
-    top: 100,
+    bottom: 10,
+    left: 10,
     padding: 20,
     fontSize: 25,
     textAlign: "center",
@@ -223,15 +226,16 @@ const styles = StyleSheet.create({
     opacity: 1,
     justifyContent: "flex-start",
     alignItems: "center",
+    backgroundColor: "#000",
   },
 
-  destinationContent: { padding: 20, gap: 20 },
+  destinationContent: { padding: 20, gap: 10 },
   destiontionItem: {
     display: "flex",
     flexDirection: "row",
     gap: 10,
     width: "100%",
-    height: 140,
+    height: 120,
     marginBottom: 20,
     padding: 10,
     borderRadius: 12,
@@ -242,7 +246,7 @@ const styles = StyleSheet.create({
   },
   destinationImg: {
     width: 100,
-    height: "100%",
+    height: 100,
     borderRadius: 6,
     borderWidth: 1,
     borderColor: "#CCC",

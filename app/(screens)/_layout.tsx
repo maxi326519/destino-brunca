@@ -16,7 +16,11 @@ import IconSearch from "@/components/Icons/IconSearch";
 
 interface Tab {
   route: Href;
-  IconComponent: React.ComponentType<{ fill?: string; stroke?: string }>;
+  IconComponent: React.ComponentType<{
+    size?: number;
+    fill?: string;
+    stroke?: string;
+  }>;
   fill?: boolean;
   stroke?: boolean;
 }
@@ -42,8 +46,6 @@ const tabs: Tab[] = [
 export default function CustomLayout() {
   const router = useRouter();
   const pathname = usePathname();
-
-  console.log(pathname);
 
   const getIsActive = (partialRoute: string) => {
     console.log(pathname, partialRoute, pathname === partialRoute);
@@ -80,16 +82,22 @@ export default function CustomLayout() {
           ></View>
         )}
         <Image
-          source={require("@/assets/images/logo.png")}
+          source={require("@/assets/images/adaptive-icon.png")}
           style={{ height: 80, width: 100 }}
           resizeMode="contain"
         />
-        <TouchableOpacity
-          style={styles.circleButton}
-          onPress={() => router.push("/(screens)/home/Search")}
-        >
-          <IconSearch fill="black" width={25} strokeWidth={1.6} />
-        </TouchableOpacity>
+        {pathname !== "/home/Search" ? (
+          <TouchableOpacity
+            style={styles.circleButton}
+            onPress={() => router.push("/(screens)/home/Search")}
+          >
+            <IconSearch fill="black" size={25} strokeWidth={1.6} />
+          </TouchableOpacity>
+        ) : (
+          <View
+            style={[styles.circleButton, { backgroundColor: "transparent" }]}
+          ></View>
+        )}
       </View>
 
       <View style={{ flex: 1 }}>
@@ -130,6 +138,7 @@ export default function CustomLayout() {
                 ]}
               >
                 <IconComponent
+                  size={35}
                   fill={fill ? getIconColor(isActive) : undefined}
                   stroke={stroke ? getIconColor(isActive) : undefined}
                 />
@@ -158,7 +167,7 @@ const styles = StyleSheet.create({
   tabBar: {
     flexDirection: "row",
     alignItems: "flex-start",
-    height: 80,
+    height: 70,
     paddingBottom: 0,
     borderTopWidth: 1,
     borderTopColor: "#ccc",
