@@ -15,10 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.destino.bruno",
-      "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
-      }
+      "bundleIdentifier": "com.destino.bruno"
     },
     "android": {
       "adaptiveIcon": {
@@ -55,11 +52,14 @@
       },
       "owner": "maxi.326519"
     },
+    "owner": "maxi.326519",
     "extra": {
+      "router": {
+        "origin": false
+      },
       "eas": {
-        "projectId": "226f45cd-acc2-4021-9b13-8f15a3e4642a"
+        "projectId": "6a9c200e-7f96-480f-9649-3ac93893c603"
       }
-    },
-    "owner": "maxi.326519"
+    }
   }
 }
