@@ -2,17 +2,15 @@ import { ClipPath, Defs, G, Mask, Path, Rect, Svg } from "react-native-svg";
 
 interface Props {
   fill?: string;
-  width?: number | string;
-  height?: number | string;
+  size?: number | string;
 }
 
 export default function IconConfig({
   fill = "black",
-  width = 50,
-  height = 50,
+  size = 40,
 }: Props) {
   return (
-    <Svg width={width} height={height} viewBox="0 0 50 50" fill="none">
+    <Svg width={size} height={size} viewBox="0 0 50 50" fill="none">
       <G clip-path="url(#clip0_283_32)">
         <Path
           fill-rule="evenodd"

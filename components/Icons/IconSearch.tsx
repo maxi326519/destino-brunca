@@ -3,21 +3,19 @@ import Svg, { Path } from "react-native-svg";
 
 interface Props {
   fill?: string;
-  width?: string | number;
-  height?: string | number;
+  size?: string | number;
   strokeWidth?: number;
 }
 
 export default function IconSearch({
   fill = "#000",
-  width = 40,
-  height = 40,
+  size = 40,
   strokeWidth = 2,
 }: Props) {
   return (
     <Svg
-      width={width}
-      height={height}
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       fill="none"
     >

@@ -35,7 +35,7 @@ export default function Login() {
       />
       <Image
         style={{ width: 250 }}
-        source={require("@/assets/images/logo.png")}
+        source={require("@/assets/images/adaptive-icon.png")}
       />
       <ActivityIndicator color="white" size="large" />
     </View>

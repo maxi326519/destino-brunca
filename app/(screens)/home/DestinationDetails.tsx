@@ -32,7 +32,7 @@ export default function DestinationDetails() {
   }, [destination]);
 
   const safeText = (text?: string | null) =>
-    text && text.trim().length > 0 ? text : "No disponible";
+    text && text.trim().length > 0 ? text : "-";
 
   return (
     <ScrollView style={{ flex: 1 }}>
@@ -61,29 +61,29 @@ export default function DestinationDetails() {
         style={styles.content}
         onLayout={(event) => setContainerWidth(event.nativeEvent.layout.width)}
       >
-        <Text style={styles.sectionTitle}>Detalles del destino</Text>
+        {destination?.body && (
+          <RenderHTML
+            contentWidth={containerWidth}
+            source={{ html: destination.body }}
+            baseStyle={styles.destinationDescription}
+          />
+        )}
 
-        <Text style={styles.destinationTitle}>
-          {safeText(destination?.title)}
-        </Text>
+        {destination?.telefono && destination?.email && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Datos de contacto:</Text>
+            <Text>Teléfono: {safeText(destination?.telefono?.[1])}</Text>
+            <Text>Correo: {safeText(destination?.email)}</Text>
+          </View>
+        )}
 
-        <RenderHTML
-          contentWidth={containerWidth}
-          source={{ html: destination?.body || "<p>No disponible</p>" }}
-          baseStyle={styles.destinationDescription}
-        />
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Datos de contacto:</Text>
-          <Text>Teléfono: {safeText(destination?.telefono?.[1])}</Text>
-          <Text>Correo: {safeText(destination?.email)}</Text>
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Ubicación:</Text>
-          <Text>Cantón: {safeText(destination?.canton)}</Text>
-          <Text>Distrito: {safeText(destination?.distrito)}</Text>
-        </View>
+        {destination?.canton && destination?.distrito && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Ubicación:</Text>
+            <Text>Cantón: {safeText(destination?.canton)}</Text>
+            <Text>Distrito: {safeText(destination?.distrito)}</Text>
+          </View>
+        )}
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Horario:</Text>
@@ -97,57 +97,76 @@ export default function DestinationDetails() {
           </Text>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Montaña:</Text>
-          <Text>Título: {safeText(destination?.montaña?.title)}</Text>
-          <Text>
-            Descripción: {safeText(destination?.montaña?.description)}
-          </Text>
-          <Text>Cantón: {safeText(destination?.montaña?.canton)}</Text>
-          <Text>Distrito: {safeText(destination?.montaña?.distrito)}</Text>
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Playa:</Text>
-          <Text>Título: {safeText(destination?.playa?.title)}</Text>
-          <Text>Descripción: {safeText(destination?.playa?.description)}</Text>
-          <Text>Cantón: {safeText(destination?.playa?.canton)}</Text>
-          <Text>Distrito: {safeText(destination?.playa?.distrito)}</Text>
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Servicios:</Text>
-          {destination?.servicios ? (
-            <FlatList
-              data={Object.values(destination.servicios)}
-              keyExtractor={(item) => item}
-              renderItem={({ item }) => <Text>{item}</Text>}
-              scrollEnabled={false}
-            />
-          ) : (
-            <Text>No hay servicios registrados.</Text>
+        {destination?.montaña.title &&
+          destination?.montaña.description &&
+          destination?.montaña.canton &&
+          destination?.montaña.distrito && (
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Montaña:</Text>
+              <Text>Título: {safeText(destination?.montaña?.title)}</Text>
+              <Text>
+                Descripción: {safeText(destination?.montaña?.description)}
+              </Text>
+              <Text>Cantón: {safeText(destination?.montaña?.canton)}</Text>
+              <Text>Distrito: {safeText(destination?.montaña?.distrito)}</Text>
+            </View>
           )}
-        </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Alimentos:</Text>
-          {destination?.tipo_alimentos ? (
-            <FlatList
-              data={Object.values(destination.tipo_alimentos)}
-              keyExtractor={(item) => item}
-              renderItem={({ item }) => <Text>{item}</Text>}
-              scrollEnabled={false}
-            />
-          ) : (
-            <Text>No hay tipos de alimentos registrados.</Text>
+        {destination?.playa?.title &&
+          destination?.playa?.description &&
+          destination?.playa?.canton &&
+          destination?.playa?.distrito && (
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Playa:</Text>
+              <Text>Título: {safeText(destination?.playa?.title)}</Text>
+              <Text>
+                Descripción: {safeText(destination?.playa?.description)}
+              </Text>
+              <Text>Cantón: {safeText(destination?.playa?.canton)}</Text>
+              <Text>Distrito: {safeText(destination?.playa?.distrito)}</Text>
+            </View>
           )}
-        </View>
+
+        {destination && Object.values(destination.servicios).length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Servicios:</Text>
+            {destination?.servicios ? (
+              <FlatList
+                data={Object.values(destination.servicios)}
+                keyExtractor={(item) => item}
+                renderItem={({ item }) => <Text>{item}</Text>}
+                scrollEnabled={false}
+              />
+            ) : (
+              <Text>No hay servicios registrados.</Text>
+            )}
+          </View>
+        )}
+
+        {destination && Object.values(destination.tipo_alimentos).length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Alimentos:</Text>
+            {destination?.tipo_alimentos ? (
+              <FlatList
+                data={Object.values(destination.tipo_alimentos)}
+                keyExtractor={(item) => item}
+                renderItem={({ item }) => <Text>{item}</Text>}
+                scrollEnabled={false}
+              />
+            ) : (
+              <Text>No hay tipos de alimentos registrados.</Text>
+            )}
+          </View>
+        )}
 
         {destination?.map?.lat && destination?.map?.lon && (
-          <MapPreview
-            latitude={Number(destination?.map.lat)}
-            longitude={Number(destination?.map.lon)}
-          />
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Mapa:</Text>
+            <MapPreview
+              latitude={Number(destination?.map.lat)}
+              longitude={Number(destination?.map.lon)}
+            />
+          </View>
         )}
       </View>
     </ScrollView>
@@ -177,8 +196,8 @@ const styles = StyleSheet.create({
     zIndex: 100,
     bottom: 0,
     padding: 20,
+    width: "100%",
     fontSize: 25,
-    textAlign: "center",
     fontWeight: "500",
     color: "white",
   },
@@ -196,36 +215,20 @@ const styles = StyleSheet.create({
   },
   destinationDescription: {
     color: "black",
+    fontSize: 16,
     marginBottom: 15,
   },
   section: {
-    marginBottom: 25,
+    marginBottom: 20,
   },
   sectionTitle: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     marginBottom: 5,
+    color: "#222",
   },
-
   content: {
     flex: 1,
     padding: 20,
-  },
-  mapContainer: {
-    marginTop: 20,
-    borderRadius: 10,
-    overflow: "hidden",
-    elevation: 4,
-    backgroundColor: "#ccc",
-  },
-  mapPreview: {
-    width: "100%",
-    height: 200,
-  },
-  mapText: {
-    textAlign: "center",
-    padding: 10,
-    fontWeight: "bold",
-    color: "#007AFF",
   },
 });

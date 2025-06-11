@@ -1,3 +1,5 @@
+import { useTheme } from "react-native-paper";
+import { Link } from "expo-router";
 import {
   FlatList,
   Image,
@@ -6,8 +8,9 @@ import {
   Text,
   View,
 } from "react-native";
-import { Link } from "expo-router";
 import useNews from "@/hooks/useNews";
+import RenderHTML from "react-native-render-html";
+import { useState } from "react";
 
 const locations = [
   {
@@ -48,7 +51,9 @@ const locations = [
 ];
 
 export default function Home() {
+  const theme = useTheme();
   const news = useNews();
+  const [containerWidth, setContainerWidth] = useState(0);
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "#4442" }}>
@@ -97,7 +102,12 @@ export default function Home() {
             keyExtractor={(_, index) => Date.now().toString() + index}
             renderItem={({ item }) => (
               <Link href="/news/details">
-                <View style={styles.noticeItem}>
+                <View
+                  onLayout={(event) =>
+                    setContainerWidth(event.nativeEvent.layout.width)
+                  }
+                  style={styles.noticeItem}
+                >
                   <View style={styles.noticeImg}>
                     {item.imagen_principal.images["1"].url && (
                       <Image
@@ -107,6 +117,36 @@ export default function Home() {
                     )}
                   </View>
                   <Text style={styles.noticeTitle}>{item.title}</Text>
+                  <View
+                    style={{
+                      flex: 1,
+                      borderBottomRightRadius: 6,
+                      borderBottomLeftRadius: 6,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <RenderHTML
+                      contentWidth={containerWidth}
+                      source={{ html: item.body ?? "" }}
+                      baseStyle={{
+                        ...styles.newsDescription,
+                        color: theme.dark ? "#ddd" : "#444",
+                      }}
+                      // Añade estas props para mejor control del texto
+                      enableExperimentalGhostLinesPrevention={true}
+                      tagsStyles={{
+                        p: {
+                          margin: 0,
+                          padding: 0,
+                        },
+                        body: {
+                          margin: 0,
+                          padding: 0,
+                          whiteSpace: "normal",
+                        },
+                      }}
+                    />
+                  </View>
                 </View>
               </Link>
             )}
@@ -133,8 +173,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 25,
     fontWeight: "bold",
-    marginVertical: 20,
     marginLeft: 10,
+    marginBottom: 20,
+    color: "#222"
   },
   destinations: {
     padding: 20,
@@ -144,6 +185,7 @@ const styles = StyleSheet.create({
     height: 200,
     display: "flex",
     flexDirection: "row",
+    borderRadius: 6,
     backgroundColor: "#555",
     overflow: "hidden",
   },
@@ -161,7 +203,7 @@ const styles = StyleSheet.create({
     position: "relative",
     height: "100%",
     width: "100%",
-    backgroundColor: "#444",
+    backgroundColor: "#222",
   },
 
   noticeItem: {
@@ -170,18 +212,25 @@ const styles = StyleSheet.create({
     gap: 5,
     width: 200,
     height: 300,
-    margin: 5,
+    padding: 10,
+    borderRadius: 16,
+    backgroundColor: "white",
   },
   noticeImg: {
-    height: 150,
-    width: 200,
-    borderRadius: 5,
+    height: 120,
+    width: 180,
+    borderRadius: 6,
     backgroundColor: "#555",
     overflow: "hidden",
   },
   noticeTitle: {
-    // width: 200,
-    marginHorizontal: 10,
     fontWeight: "500",
+  },
+  newsDescription: {
+    fontSize: 14,
+    lineHeight: 18,
+    textAlign: "justify",
+    flexShrink: 1,
+    color: "#bbb",
   },
 });

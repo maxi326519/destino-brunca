@@ -21,6 +21,8 @@ export default function MapPreview({
   return (
     <View
       style={{
+        borderWidth: 1,
+        borderColor: "#CCC",
         borderRadius: 5,
         overflow: "hidden",
       }}
