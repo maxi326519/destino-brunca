@@ -12,6 +12,8 @@ import {
   View,
 } from "react-native";
 import useDestinations from "@/hooks/useDestinations";
+import useSearch from "@/hooks/useSearch";
+
 import RenderHTML from "react-native-render-html";
 import IconClose from "@/components/Icons/IconClose";
 import MapPreview from "@/components/MapPreview";
@@ -19,15 +21,21 @@ import MapPreview from "@/components/MapPreview";
 export default function DestinationDetails() {
   const params = useLocalSearchParams();
   const destinations = useDestinations();
+  const searchData = useSearch();
   const [containerWidth, setContainerWidth] = useState(0);
   const [destination, setDestination] = useState<Destination>();
 
   useEffect(() => {
+    console.log(params.item);
+
     if (params.index) {
-      const currentDestination = destinations.data.find(
-        (_, destinationIndex) => destinationIndex === Number(params.index)
-      );
-      if (currentDestination) setDestination(currentDestination);
+      const data = destinations.data.find((_, i) => i === Number(params.index));
+      if (data) setDestination(data);
+    }
+
+    if (params.apiId) {
+      const data = searchData.data.find((data) => data.id === params.apiId);
+      if (data) setDestination(data);
     }
   }, [destination]);
 

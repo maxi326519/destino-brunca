@@ -1,5 +1,6 @@
 import { ActivityIndicator } from "react-native-paper";
 import { useEffect, useState } from "react";
+import { News } from "@/interface/News";
 import { Link } from "expo-router";
 import {
   FlatList,
@@ -16,12 +17,21 @@ import RenderHTML from "react-native-render-html";
 import IconSearch from "@/components/Icons/IconSearch";
 import Loading from "@/components/Loading";
 
+enum ResponseType {
+  EMPRENDIMIENTOS = "emprendimientos",
+  NOTICIA = "noticia",
+}
+
 export default function Search() {
   const search = useSearch();
   const [searchBar, setSearchBar] = useState<string>("");
   const [containerWidth, setContainerWidth] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingNextPage, setLoadingNextPage] = useState(false);
+
+  useEffect(() => {
+    console.log(search.data);
+  }, [search.data]);
 
   useEffect(() => {
     if (search.data.length === 0) search.getData("");
@@ -92,15 +102,25 @@ export default function Search() {
           renderItem={({ item, index }) => (
             <Link
               href={{
-                pathname: "/(screens)/home/DestinationDetails",
-                // params: { index, name: params.location },
+                pathname:
+                  item.type === ResponseType.EMPRENDIMIENTOS
+                    ? "/(screens)/home/DestinationDetails"
+                    : item.type === ResponseType.NOTICIA
+                    ? "/(screens)/news/details"
+                    : "",
+                params: { apiId: item.id },
               }}
             >
               <View style={styles.destiontionItem}>
                 <View style={styles.destinationImg}>
-                  {item.images["1"] && (
+                  {item.images?.["1"] ? (
                     <Image
                       src={item.images["1"].url}
+                      style={{ minWidth: "100%", minHeight: "100%" }}
+                    />
+                  ) : (
+                    <Image
+                      src={(item as News)?.imagen_principal?.images?.["1"].url}
                       style={{ minWidth: "100%", minHeight: "100%" }}
                     />
                   )}

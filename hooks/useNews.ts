@@ -25,6 +25,7 @@ interface UseNewsState {
     total_pages: number;
   };
   getNews: () => Promise<void>;
+  getNewsById: (dataId: string) => void;
   getNextPage: () => Promise<void>;
   clear: () => void;
 }
@@ -57,6 +58,31 @@ const useNews = (): UseNewsState => {
 
       // Udpate state
       content.setNews(response.data.data, response.data.pagination);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.log("News catch", error.response?.status, error.response?.data);
+        console.log(
+          "Auth News catch",
+          error.response?.data.message,
+          error.response?.data.message?.includes("permission is required")
+        );
+      } else {
+        console.log("Default catch", error);
+      }
+
+      if (error instanceof AxiosError) {
+        if (error.response?.data.message.includes("permission is required"))
+          auth.getToken();
+      }
+    }
+  }
+
+  async function getNewsById(id: string) {
+    try {
+      // Get data
+      const response = await axios.get(`/api/content/${id}`);
+      if (!response?.data) throw new Error("Error to get the news");
+      return response.data;
     } catch (error) {
       if (error instanceof AxiosError) {
         console.log("News catch", error.response?.status, error.response?.data);
@@ -109,6 +135,7 @@ const useNews = (): UseNewsState => {
     page: content.page,
     getNews,
     getNextPage,
+    getNewsById,
     clear,
   };
 };

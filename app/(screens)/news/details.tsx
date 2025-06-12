@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import useSearch from "@/hooks/useSearch";
 import useNews from "@/hooks/useNews";
 
 import RenderHTML from "react-native-render-html";
@@ -19,12 +20,22 @@ import IconClose from "@/components/Icons/IconClose";
 export default function NewsDetails() {
   const params = useLocalSearchParams();
   const newsData = useNews();
+  const searchData = useSearch();
   const [news, setNews] = useState<News>();
   const [containerWidth, setContainerWidth] = useState(0);
 
   useEffect(() => {
-    const data = newsData.data.find((data) => data.id === params.id);
-    if (data) setNews(data);
+    console.log("Item", params.apiId);
+
+    if (params.id) {
+      const data = newsData.data.find((data) => data.id === params.id);
+      if (data) setNews(data);
+    }
+
+    if (params.apiId) {
+      const data = searchData.data.find((data) => data.id === params.apiId);
+      if (data) setNews(data);
+    }
   }, [params]);
 
   if (!news) {
@@ -59,7 +70,7 @@ export default function NewsDetails() {
       >
         <View style={styles.meta}>
           <Text style={styles.author}>
-            Por {news.author.name} -{" "}
+            Por {news?.author?.name} -{" "}
             {new Date(news.creado).toLocaleDateString()}
           </Text>
         </View>
@@ -79,7 +90,7 @@ const styles = StyleSheet.create({
     position: "relative",
     justifyContent: "flex-end",
     marginBottom: 10,
-    backgroundColor: "#000"
+    backgroundColor: "#000",
   },
   headerImage: {
     position: "absolute",
